@@ -3,3 +3,7 @@
 :root {
   --font-Radio-Canada-Big: "Radio Canada Big", sans-serif;
 }
+
+body {
+  --ff-main: var(--font-Radio-Canada-Big);
+}

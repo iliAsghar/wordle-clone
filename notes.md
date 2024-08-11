@@ -4,6 +4,14 @@
 
 you have to guess a 5 letter word in 6 tries.
 
+### Making a guess
+
+Detect any key presses
+  - if it's a letter
+    - update "letters" attr and update the tile html.
+  - if it's a backspace
+    - delete last letter in "letters" attr and update the tile html.
+
 on every guess you can see what letters are in correct position, what letters are in incorrect positions, and what letters are not in the final answer.
 
 guesses have to be a real word in word list (maybe API)
@@ -14,6 +22,9 @@ guesses have to be a real word in word list (maybe API)
 - Green: "correct", letter in word and in correct position.
 
 hard mode: present or correct letters must be used in the next guesses.
+
+guesses are saved in local storage.
+
 ## Design
 
 - Tiles 5*6

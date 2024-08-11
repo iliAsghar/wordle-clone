@@ -1,0 +1,17 @@
+.guess {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+
+.guess__tile {
+  aspect-ratio: 1;
+  border: 2px solid var(--clr-tile-border--empty);
+  display: grid;
+  place-items: center;
+  font-size: 3.2rem;
+}
+
+.guess__tile--full {
+  border-color: var(--clr-tile-border--full);
+}

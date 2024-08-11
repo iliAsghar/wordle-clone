@@ -1,0 +1,2 @@
+- add data-letters to the guess.
+- add data-letter to the guess-items.
