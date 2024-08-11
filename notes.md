@@ -18,6 +18,7 @@ hard mode: present or correct letters must be used in the next guesses.
 
 - Tiles 5*6
 - Virtual keyboard
+- no lowercase letters
 
 ## Interactions
 
