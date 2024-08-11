@@ -8,58 +8,19 @@
   <script src="https://kit.fontawesome.com/81541dc3f8.js" crossorigin="anonymous"></script> 
 
   <link rel="stylesheet" href="./assets/stylesheets/style.css">
+  <script src="./assets/scripts/game.js" type="module" async defer></script>
   <title>Wordle Clone</title>
 </head>
 <body class="">
-  <div class="line"></div>
+  <!-- <div class="line"></div> -->
   <h1 class="title">wordle</h1>
   <section class="game">
-    <div class="guess">
-      <div class="guess__tile guess__tile--full">a</div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-    </div>
-
-    <div class="guess">
-      <div class="guess__tile">a</div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-    </div>
-
-    <div class="guess">
-      <div class="guess__tile">a</div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-    </div>
-
-    <div class="guess">
-      <div class="guess__tile">a</div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-    </div>
-
-    <div class="guess">
-      <div class="guess__tile">a</div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-    </div>
-
-    <div class="guess">
-      <div class="guess__tile">a</div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
-      <div class="guess__tile"></div>
+    <div class="guess" data-letters="">
+      <div class="guess__tile" data-letter="">a</div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
     </div>
   </section>
   <section class="keyboard"></section>
