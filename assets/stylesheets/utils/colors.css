@@ -1,0 +1,18 @@
+:root {
+  --yellow: #c9b458;
+  --yellow-darken: #b59f3b;
+
+  --green: #6aaa64;
+  --green-darken: #538d4e;
+
+  --gray: #787c7e;
+  --gray-darken: #3a3a3c;
+
+  --gray-2: #d3d6da;
+  --gray-2-darken: #818384;
+
+  --white: #ffffff;
+  --white-darken: #f8f8f8;
+
+  --black: #000;
+}
