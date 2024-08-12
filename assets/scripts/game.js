@@ -82,7 +82,21 @@ class Game {
   }
 
   startGame () {
+    this.generateTargetWord();
     window.addEventListener('keydown', (e) => this.handleInput(e.key));
+  }
+
+  pauseGame() {
+    window.removeEventListener('keydown', (e) => this.handleInput(e.key));
+  }
+
+  resumeGame() {
+    window.addEventListener('keydown', (e) => this.handleInput(e.key));
+  }
+
+  generateTargetWord() {
+    // ? this could also be based on date or something.
+    this.targetWord = this.dictionary[Math.floor(Math.random() * this.dictionary.length)];
   }
 
   // done
@@ -92,7 +106,7 @@ class Game {
 
     // if it's a letter, add it.
     if (key.length === 1 && regex.test(key)) {
-      this.currentGuess.addLetter(key);
+      this.currentGuess.addLetter(key.toLowerCase());
 
     // if it's Enter, submit the guess.
     } else if (key === "Enter") {
@@ -108,16 +122,19 @@ class Game {
   nextGuess() {
     this.currentGuess = new Guess(++this.currentGuessNum);
   }
-
+  
   submitHandler() {
+    this.pauseGame();
     let guessWord = this.currentGuess.getGuess();
     if(!this.isGuessValidLength(guessWord)) {
       // todo error for length. maybe a function?
+      this.resumeGame();
       return;
     }
     
     if(!this.isRealWord(guessWord)) {
       // todo error for not a real word. maybe a function?
+      this.resumeGame();
       return;
     }
     
@@ -131,16 +148,38 @@ class Game {
 
   // done
   isRealWord(word) {
-    return this.dictionary.hasOwnProperty(word);
+    return this.dictionary.includes(word);
   }
 
   submitGuess(guess) {
     this.wordsGuessed.append(guess);
+    // todo submit from the guess object(class) 
+    
     if(this.wordsGuessed.length === 6) {
       this.gameOver();
     } else {
       this.nextGuess();
+      this.resumeGame();
     }
+  }
+
+  // done
+  getLetterColors (word, target) {
+    let colors = [0, 0, 0, 0, 0];
+    let targetArray = target.split('');
+  
+    for(let wordLetterInd in word) {
+      if(word[wordLetterInd] === targetArray[wordLetterInd]) {
+        colors[wordLetterInd] = 2;
+        targetArray[wordLetterInd] = '*';
+        continue;
+      } else if(targetArray.indexOf(word[wordLetterInd]) !== -1) {
+        colors[wordLetterInd] = 1;
+        targetArray[targetArray.indexOf(word[wordLetterInd])] = '*';
+        continue;
+      }
+    }
+    return colors;
   }
 
   // done
@@ -148,9 +187,7 @@ class Game {
     fetch('./assets/datas/words_dictionary.json')
       .then(response => response.json())
       .then(wordsData => {
-        this.dictionary = wordsData;
-        console.log(this.dictionary);
-        
+        this.dictionary = (Object.keys(wordsData)).filter(word => word.length === 5);
       })
   }
 
