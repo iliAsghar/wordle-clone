@@ -1,14 +1,17 @@
 class Letter {
+  // done
   constructor (letterElem) {
     this.element = letterElem;
   }
 
+  // done
   add(letter) {
     this.element.dataset.letter = letter; 
     this.element.innerHTML = letter;
     this.element.classList.add('.guess__tile--full');
   }
 
+  // done
   remove() {
     this.element.dataset.letter = ''; 
     this.element.innerHTML = '';
@@ -17,6 +20,7 @@ class Letter {
 }
 
 class Guess {
+  // done
   constructor (guessElem) {
     this.canAddLetter = true;
 
@@ -26,6 +30,7 @@ class Guess {
     this.currentLetter = new Letter(this.letters[this.currentLetterNum]);
   }
 
+  // done
   addLetter(letter) {
     if(this.canAddLetter) {
       this.currentLetter.add(letter);
@@ -34,6 +39,7 @@ class Guess {
     }
   }
 
+  // done
   removeLetter() {
     this.currentLetter.remove();
     this.element.dataset.letters = (this.element.dataset.letters).slice(0, -1);
@@ -41,12 +47,14 @@ class Guess {
     this.canAddLetter = true;
   }
 
+  // done
   previousLetter() {
     if(this.currentLetterNum !== 0) {
       this.currentLetter = new Letter(--this.currentLetterNum);
     }
   }
 
+  // done
   nextLetter() {
     if(this.currentLetterNum !== 4) {
       this.currentLetter = new Letter(++this.currentLetterNum);
@@ -55,35 +63,29 @@ class Guess {
     }
   }
 
-  isFullGuess() {
-    return (this.element.dataset.letters.length === 5);
-  }
-
+  // done
   getGuess () {
     return this.element.dataset.letters;
-  }
-
-  submit() {
-
   }
 }
 
 class Game {
   constructor () {
-    this.canAddLetter = true;
+    this.guesses = [...document.querySelectorAll('.guess')];
+    this.currentGuessNum = 0;
+    this.currentGuess = new Guess(this.guesses[this.currentGuessNum]);
+    
+    this.wordsGuessed = [];
 
-    // this.guesses = [...document.querySelectorAll('.guess')];
-    // this.currentGuessNum = 0;
-    // this.currentGuess = new Guess(this.guesses[this.currentGuessNum]);
+    // essential methods :
+    this.loadWordDictionary();
   }
 
   startGame () {
-
-
-    // init event listeners
     window.addEventListener('keydown', (e) => this.handleInput(e.key));
   }
 
+  // done
   handleInput(key) {
     // defined a regex pattern to filter out letter entries.
     const regex = /^[a-zA-Z]+$/;
@@ -94,7 +96,7 @@ class Game {
 
     // if it's Enter, submit the guess.
     } else if (key === "Enter") {
-      this.submitGuess();
+      this.submitHandler();
 
     // if it's Backspace, remove a letter.
     } else if(key === "Backspace") {
@@ -102,49 +104,57 @@ class Game {
     }
   }
 
+  // done
   nextGuess() {
     this.currentGuess = new Guess(++this.currentGuessNum);
   }
 
-  submitGuess() {
-    if(this.currentGuess.isFullGuess) {
-      this.currentGuess.submit();
-
-      let guessWord = this.currentGuess.getGuess();
-      let APIlink = `https://api.dictionaryapi.dev/api/v2/entries/en/${guessWord}`;
-      
-      fetch(APIlink)
-        .then(response => {
-          if(!response.ok) {
-            throw new Error('Not a real word!');
-          }
-          // if the word is ok
-          // ...
-        })
-        .catch(() => {
-          // if the word is NOT ok
-          // ...
-        })
-        .then(() => {
-
-          // check if it's over.
-          this.nextGuess();
-        })
-      
-    }
-  }
-}
-
-let APIlink = `https://api.dictionaryapi.dev/api/v2/entries/en/somssss`;
-      
-fetch(APIlink)
-  .then(response => {
-    if(!response.ok) {
-      throw new Error;
+  submitHandler() {
+    let guessWord = this.currentGuess.getGuess();
+    if(!this.isGuessValidLength(guessWord)) {
+      // todo error for length. maybe a function?
+      return;
     }
     
-    // if the word is ok
-  })
-  .catch(() => {
-    // if the word is NOT ok
-  })
+    if(!this.isRealWord(guessWord)) {
+      // todo error for not a real word. maybe a function?
+      return;
+    }
+    
+    this.submitGuess(guessWord);
+  }
+
+  // done
+  isGuessValidLength(guess) {
+    return guess.length === 5;
+  }
+
+  // done
+  isRealWord(word) {
+    return this.dictionary.hasOwnProperty(word);
+  }
+
+  submitGuess(guess) {
+    this.wordsGuessed.append(guess);
+    if(this.wordsGuessed.length === 6) {
+      this.gameOver();
+    } else {
+      this.nextGuess();
+    }
+  }
+
+  // done
+  loadWordDictionary() {
+    fetch('./assets/datas/words_dictionary.json')
+      .then(response => response.json())
+      .then(wordsData => {
+        this.dictionary = wordsData;
+        console.log(this.dictionary);
+        
+      })
+  }
+
+  gameOver() {
+
+  }
+}
