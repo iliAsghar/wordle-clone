@@ -17,6 +17,22 @@ class Letter {
     this.element.innerHTML = '';
     this.element.classList.remove('.guess__tile--full');
   }
+
+  // done
+  flip(colorCode) {
+    switch (colorCode) {
+      case 0:
+        this.element.classList.add('.guess__tile--absent');
+        break;
+      case 1:
+        this.element.classList.add('.guess__tile--present');
+        break;
+      case 2:
+        this.element.classList.add('.guess__tile--correct');
+        break;
+    }
+    this.element.classList.add('.guess__tile--submitted');
+  }
 }
 
 class Guess {
@@ -69,24 +85,26 @@ class Guess {
   }
 
   showResult (colorCodes) {
-    for (let colorCodeInd in colorCodes) {
-      this.currentLetterNum = colorCodeInd;
+    this.colorCodes = colorCodes;
+    this.animateLetters();
+  }
+
+  animateLetters (letterIndex = 0) {
+    if(letterIndex === 6) {
+      return; // todo unpause?
+    } else {
+      this.currentLetterNum = letterIndex;
       this.currentLetter = new Letter(this.currentLetterNum);
-      switch (colorCodes[colorCodeInd]) {
-        case 2:
-          // flip + set correct
-          break;
-        case 1:
-          // flip + set present
-          break;
-        case 0:
-          // flip + set absent
-          break;
-      }
-      // do the flip animation
-      // ? or maybe we could do the animation
+      this.currentLetter.flip(this.colorCodes[letterIndex]);
+      this.currentLetter.element.addEventListener('animationend', this.animationEnd);
     }
   }
+
+  // done
+  animationEnd () {
+    this.currentLetter.element.removeEventListener('animationend', this.animationEnd);
+    this.animateLetters(this.currentLetterNum + 1);
+  } 
 }
 
 class Game {
@@ -106,14 +124,18 @@ class Game {
     window.addEventListener('keydown', (e) => this.handleInput(e.key));
   }
 
+  // done
   pauseGame() {
     window.removeEventListener('keydown', (e) => this.handleInput(e.key));
   }
 
+  // done
   resumeGame() {
     window.addEventListener('keydown', (e) => this.handleInput(e.key));
   }
 
+  // done
+  // ? is it ?
   generateTargetWord() {
     // ? this could also be based on date or something.
     this.targetWord = this.dictionary[Math.floor(Math.random() * this.dictionary.length)];
@@ -143,17 +165,18 @@ class Game {
     this.currentGuess = new Guess(++this.currentGuessNum);
   }
   
+  // done
   submitHandler() {
     this.pauseGame();
     let guessWord = this.currentGuess.getGuess();
     if(!this.isGuessValidLength(guessWord)) {
-      // todo error for length. maybe a function?
+      this.showError('Not enough letters');
       this.resumeGame();
       return;
     }
     
     if(!this.isRealWord(guessWord)) {
-      // todo error for not a real word. maybe a function?
+      this.showError('Not in word list');
       this.resumeGame();
       return;
     }
@@ -166,6 +189,10 @@ class Game {
     return guess.length === 5;
   }
 
+  showError(errorMsg) {
+    // todo - add a popup to the page. set a popup timer to fase away.
+  }
+
   // done
   isRealWord(word) {
     return this.dictionary.includes(word);
@@ -174,8 +201,7 @@ class Game {
   submitGuess(guess) {
     this.wordsGuessed.append(guess);
     let colorResults = this.getLetterColors(guess, this.targetWord);
-    this.currentGuess.showResult(colorResults);
-    // todo submit from the guess object(class) 
+    this.currentGuess.showResult(colorResults); // todo - this has a duration. run playGame() after the duration (how tho?)
     
     if(this.wordsGuessed.length === 6) {
       this.gameOver();
@@ -214,6 +240,6 @@ class Game {
   }
 
   gameOver() {
-
+    n 
   }
 }

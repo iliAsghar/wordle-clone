@@ -15,3 +15,38 @@
 .guess__tile--full {
   border-color: var(--clr-tile-border--full);
 }
+
+.guess__tile--correct {
+  --tile-color: var(--clr-correct);
+}
+
+.guess__tile--present {
+  --tile-color: var(--clr-present);
+}
+
+.guess__tile--absent {
+  --tile-color: var(--clr-absent);
+}
+
+.guess__tile--submitted {
+  transform-origin: center;
+  animation: tileFlip 1.5s linear forwards;
+}
+
+@keyframes tileFlip {
+  0% {
+    transform: scaleY(1);
+  }
+  
+  50% {
+    transform: scaleY(0);
+    background-color: transparent;
+  }
+  51% {
+    background-color: var(--tile-color);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}

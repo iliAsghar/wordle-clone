@@ -41,9 +41,9 @@ body {
 
 body.dark {
   /* color variables (dark) : */
+  --clr-correct: var(--green-2);
   --clr-present: var(--yellow-2);
   --clr-absent: var(--color-tone-8);
-  --clr-correct: var(--green-2);
 
   --clr-text: var(--clr-light-text);
 
