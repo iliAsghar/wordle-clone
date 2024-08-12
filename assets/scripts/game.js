@@ -8,30 +8,30 @@ class Letter {
   add(letter) {
     this.element.dataset.letter = letter; 
     this.element.innerHTML = letter;
-    this.element.classList.add('.guess__tile--full');
+    this.element.classList.add('guess__tile--full');
   }
 
   // done
   remove() {
     this.element.dataset.letter = ''; 
     this.element.innerHTML = '';
-    this.element.classList.remove('.guess__tile--full');
+    this.element.classList.remove('guess__tile--full');
   }
 
   // done
   flip(colorCode) {
     switch (colorCode) {
       case 0:
-        this.element.classList.add('.guess__tile--absent');
+        this.element.classList.add('guess__tile--absent');
         break;
       case 1:
-        this.element.classList.add('.guess__tile--present');
+        this.element.classList.add('guess__tile--present');
         break;
       case 2:
-        this.element.classList.add('.guess__tile--correct');
+        this.element.classList.add('guess__tile--correct');
         break;
     }
-    this.element.classList.add('.guess__tile--submitted');
+    this.element.classList.add('guess__tile--submitted');
   }
 }
 
@@ -41,8 +41,10 @@ class Guess {
     this.canAddLetter = true;
 
     this.element = guessElem;
+    
     this.letters = [...this.element.querySelectorAll('.guess__tile')];
     this.currentLetterNum = 0;
+    
     this.currentLetter = new Letter(this.letters[this.currentLetterNum]);
   }
 
@@ -51,29 +53,29 @@ class Guess {
     if(this.canAddLetter) {
       this.currentLetter.add(letter);
       this.element.dataset.letters += letter;
-      this.updateLetters(letter);
+      this.nextLetter();
     }
   }
 
-  // done
   removeLetter() {
-    this.currentLetter.remove();
-    this.element.dataset.letters = (this.element.dataset.letters).slice(0, -1);
+    // todo maybe for 5 is different?
     this.previousLetter();
+    this.element.dataset.letters = (this.element.dataset.letters).slice(0, -1);
+    this.currentLetter.remove();
     this.canAddLetter = true;
   }
 
   // done
   previousLetter() {
     if(this.currentLetterNum !== 0) {
-      this.currentLetter = new Letter(--this.currentLetterNum);
+      this.currentLetter = new Letter(this.letters[--this.currentLetterNum]);
     }
   }
 
   // done
   nextLetter() {
     if(this.currentLetterNum !== 4) {
-      this.currentLetter = new Letter(++this.currentLetterNum);
+      this.currentLetter = new Letter(this.letters[++this.currentLetterNum]);
     } else {
       this.canAddLetter = false;
     }
@@ -84,42 +86,44 @@ class Guess {
     return this.element.dataset.letters;
   }
 
+  // done
   showResult (colorCodes) {
     this.colorCodes = colorCodes;
-    this.animateLetters();
-  }
-
-  animateLetters (letterIndex = 0) {
-    if(letterIndex === 6) {
-      return; // todo unpause?
-    } else {
-      this.currentLetterNum = letterIndex;
-      this.currentLetter = new Letter(this.currentLetterNum);
-      this.currentLetter.flip(this.colorCodes[letterIndex]);
-      this.currentLetter.element.addEventListener('animationend', this.animationEnd);
-    }
+    return this.animateLetters();
   }
 
   // done
-  animationEnd () {
-    this.currentLetter.element.removeEventListener('animationend', this.animationEnd);
-    this.animateLetters(this.currentLetterNum + 1);
-  } 
+  animateLetters () {
+    return new Promise(res => {
+      const animateNextLetter = (index) => {
+        if(index === 5) {
+          res('unpause');
+        } else {
+          this.currentLetterNum = index;
+          this.currentLetter = new Letter(this.letters[this.currentLetterNum]);
+          this.currentLetter.flip(this.colorCodes[index]);
+          this.currentLetter.element.addEventListener('animationend', () => {
+            animateNextLetter(index + 1);
+          }, { once: true });
+        }
+      };
+      animateNextLetter(0);
+    })
+  }
 }
 
 class Game {
+  // done i think
   constructor () {
     this.guesses = [...document.querySelectorAll('.guess')];
     this.currentGuessNum = 0;
     this.currentGuess = new Guess(this.guesses[this.currentGuessNum]);
     
     this.wordsGuessed = [];
-
-    // essential methods :
-    this.loadWordDictionary();
   }
 
-  startGame () {
+  async startGame () {
+    await this.loadWordDictionary();
     this.generateTargetWord();
     window.addEventListener('keydown', (e) => this.handleInput(e.key));
   }
@@ -130,7 +134,7 @@ class Game {
   }
 
   // done
-  resumeGame() {
+  unpauseGame() {
     window.addEventListener('keydown', (e) => this.handleInput(e.key));
   }
 
@@ -162,7 +166,7 @@ class Game {
 
   // done
   nextGuess() {
-    this.currentGuess = new Guess(++this.currentGuessNum);
+    this.currentGuess = new Guess(this.guesses[++this.currentGuessNum]);
   }
   
   // done
@@ -171,13 +175,13 @@ class Game {
     let guessWord = this.currentGuess.getGuess();
     if(!this.isGuessValidLength(guessWord)) {
       this.showError('Not enough letters');
-      this.resumeGame();
+      this.unpauseGame();
       return;
     }
     
     if(!this.isRealWord(guessWord)) {
       this.showError('Not in word list');
-      this.resumeGame();
+      this.unpauseGame();
       return;
     }
     
@@ -198,16 +202,20 @@ class Game {
     return this.dictionary.includes(word);
   }
 
+  // done
   submitGuess(guess) {
-    this.wordsGuessed.append(guess);
+    this.wordsGuessed.push(guess);
     let colorResults = this.getLetterColors(guess, this.targetWord);
-    this.currentGuess.showResult(colorResults); // todo - this has a duration. run playGame() after the duration (how tho?)
+    this.currentGuess.showResult(colorResults)
+                        .then(response => {
+                          this.unpauseGame();
+                        })
     
     if(this.wordsGuessed.length === 6) {
       this.gameOver();
     } else {
       this.nextGuess();
-      this.resumeGame();
+      this.unpauseGame();
     }
   }
 
@@ -231,15 +239,16 @@ class Game {
   }
 
   // done
-  loadWordDictionary() {
-    fetch('./assets/datas/words_dictionary.json')
-      .then(response => response.json())
-      .then(wordsData => {
-        this.dictionary = (Object.keys(wordsData)).filter(word => word.length === 5);
-      })
+  async loadWordDictionary() {
+    const response = await fetch('./assets/datas/words_dictionary.json');
+    const wordsData = await response.json();
+    this.dictionary = (Object.keys(wordsData)).filter(word => word.length === 5);
   }
 
   gameOver() {
-    n 
+    // todo
   }
 }
+
+let test = new Game();
+test.startGame();

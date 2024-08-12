@@ -23,9 +23,9 @@
 
 body {
   /* color variables (light) : */
-  --clr-present: var(--yellow);
+  --clr-correct: var(--green-1);
+  --clr-present: var(--yellow-1);
   --clr-absent: var(--color-tone-6);
-  --clr-correct: var(--green);
 
   --clr-text: var(--clr-dark-text);
 

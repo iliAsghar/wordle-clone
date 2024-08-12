@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 5px;
+  width: 30rem;
 }
 
 .guess__tile {
@@ -30,23 +31,33 @@
 
 .guess__tile--submitted {
   transform-origin: center;
-  animation: tileFlip 1.5s linear forwards;
+  animation: tileFlip .75s ease-in-out forwards;
 }
 
+/* todo has work todo */
 @keyframes tileFlip {
   0% {
-    transform: scaleY(1);
+    background-color: transparent;
+    transform: scale(1, 1);
   }
   
-  50% {
-    transform: scaleY(0);
+  49.9% {
     background-color: transparent;
+    transform: scale(1, 0.01);
   }
-  51% {
+
+  50% {
+    background-color: transparent;
+    transform: scale(1, 0);
+  }
+
+  50.1% {
     background-color: var(--tile-color);
+    transform: scale(1, 0);
   }
 
   100% {
-    transform: scaleY(1);
+    background-color: var(--tile-color);
+    transform: scale(1, 1);
   }
 }
