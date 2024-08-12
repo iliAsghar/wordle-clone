@@ -67,6 +67,26 @@ class Guess {
   getGuess () {
     return this.element.dataset.letters;
   }
+
+  showResult (colorCodes) {
+    for (let colorCodeInd in colorCodes) {
+      this.currentLetterNum = colorCodeInd;
+      this.currentLetter = new Letter(this.currentLetterNum);
+      switch (colorCodes[colorCodeInd]) {
+        case 2:
+          // flip + set correct
+          break;
+        case 1:
+          // flip + set present
+          break;
+        case 0:
+          // flip + set absent
+          break;
+      }
+      // do the flip animation
+      // ? or maybe we could do the animation
+    }
+  }
 }
 
 class Game {
@@ -153,6 +173,8 @@ class Game {
 
   submitGuess(guess) {
     this.wordsGuessed.append(guess);
+    let colorResults = this.getLetterColors(guess, this.targetWord);
+    this.currentGuess.showResult(colorResults);
     // todo submit from the guess object(class) 
     
     if(this.wordsGuessed.length === 6) {
