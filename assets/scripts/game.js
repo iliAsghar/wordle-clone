@@ -58,7 +58,6 @@ class Guess {
   }
 
   removeLetter() {
-    // todo maybe for 5 is different?
     this.previousLetter();
     this.element.dataset.letters = (this.element.dataset.letters).slice(0, -1);
     this.currentLetter.remove();
@@ -115,7 +114,8 @@ class Guess {
 }
 
 class Game {
-  // done i think
+
+  // done
   constructor () {
     this.guesses = [...document.querySelectorAll('.guess')];
     this.currentGuessNum = 0;
@@ -124,6 +124,7 @@ class Game {
     this.wordsGuessed = [];
   }
 
+  // done
   async startGame () {
     await this.loadWordDictionary();
     this.generateTargetWord();
@@ -141,9 +142,7 @@ class Game {
   }
 
   // done
-  // ? is it ?
   generateTargetWord() {
-    // ? this could also be based on date or something.
     this.targetWord = this.dictionary[Math.floor(Math.random() * this.dictionary.length)];
   }
 
@@ -265,6 +264,10 @@ class Game {
     } else {
       console.log(" :( not won");
     }
+    this.renderGameOverPage();
+  }
+
+  renderGameOverPage() {
     
   }
 }

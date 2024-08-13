@@ -16,7 +16,10 @@
   --color-tone-8: hsl(240, 2%, 23%);
   --color-tone-9: hsl(240, 3%, 7%);
   --color-tone-10: hsl(0, 0%, 0%);
-  
+
+  --color-tone-11: hsla(0, 0%, 100%, 0.858);
+  --color-tone-12: hsla(0, 1%, 39%, 0.858);
+
   --clr-light-text: var(--color-tone-1);
   --clr-dark-text: var(--color-tone-10);
 }
@@ -31,6 +34,13 @@ body {
   --clr-tile-text--full: var(--color-tone-1);
 
   --clr-bg: var(--color-tone-1);
+
+  --clr-popup-bg: var(--color-tone-11);
+  --clr-popup-border: var(--color-tone-9);
+  --clr-popup-button: var(--color-tone-4);
+  --clr-popup-button--hover: var(--color-tone-3);
+  --clr-popup-button-txt: var(--color-tone-10);
+  --clr-popup-word: var(--green-1);
 
   --clr-tile-border--full: var(--color-tone-4);
   --clr-tile-border--empty: var(--color-tone-3);
@@ -50,6 +60,13 @@ body.dark {
   --clr-tile-text--full: var(--color-tone-2);
 
   --clr-bg: var(--color-tone-9);
+
+  --clr-popup-bg: var(--color-tone-12);
+  --clr-popup-border: var(--color-tone-3);
+  --clr-popup-button: var(--color-tone-11);
+  --clr-popup-button--hover: var(--color-tone-1);
+  --clr-popup-button-txt: var(--color-tone-8);
+  --clr-popup-word: var(--green-1);
 
   --clr-tile-border--full: var(--color-tone-7);
   --clr-tile-border--empty: var(--color-tone-8);
