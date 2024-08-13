@@ -1,0 +1,29 @@
+.pop-ups {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  gap: 1.75rem;
+  top: 10rem;
+}
+
+.pop-up {
+  padding: 1rem 1.75rem;
+  font-size: 1.4rem;
+  text-transform: none;
+  border-radius: 4px;
+  text-align: center;
+  
+  background-color: var(--clr-popup-bg);
+  color: var(--clr-popup-text);
+  animation: fadeOut 1s ease-in-out 1s forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

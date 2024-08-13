@@ -10,8 +10,8 @@
   padding: 3rem;
   border-radius: 10px;
 
-  border: 2px solid var(--clr-popup-border);
-  background-color: var(--clr-popup-bg);
+  border: 2px solid var(--clr-gameover-border);
+  background-color: var(--clr-gameover-bg);
   
   opacity: 0;
 }
@@ -33,7 +33,7 @@
 
 .gameover__word {
   font-size: 2.5rem;
-  color: var(--clr-popup-word) !important;
+  color: var(--clr-gameover-word) !important;
 }
 
 .gameover__restart-btn {
@@ -42,13 +42,13 @@
   padding: .75rem 2rem;
   border: none;
   border-radius: 5px;
-  background-color: var(--clr-popup-button);
-  color: var(--clr-popup-button-txt);
+  background-color: var(--clr-gameover-button);
+  color: var(--clr-gameover-button-txt);
   cursor: pointer;
 }
 
 .gameover__restart-btn:hover {
-  background-color: var(--clr-popup-button--hover);
+  background-color: var(--clr-gameover-button--hover);
 }
 
 @keyframes slideIn {
