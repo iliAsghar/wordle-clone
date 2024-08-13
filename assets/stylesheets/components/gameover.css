@@ -5,6 +5,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  width: min(100%, 50rem);
 
   padding: 3rem;
   border-radius: 10px;
@@ -13,6 +14,9 @@
   background-color: var(--clr-popup-bg);
   
   opacity: 0;
+}
+
+.gameover--visible {
   animation: slideIn .75s 1s ease-in-out forwards;
 }
 

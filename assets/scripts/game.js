@@ -122,6 +122,7 @@ class Game {
     this.currentGuess = new Guess(this.guesses[this.currentGuessNum]);
     
     this.wordsGuessed = [];
+    this.restart = this.restart.bind(this);
   }
 
   // done
@@ -212,18 +213,18 @@ class Game {
     this.currentGuess.showResult(colorResults)
     .then(response => {
       this.unpauseGame();
+      if(colorResults.every(value => value == 2)) {
+        this.gameOver(true);
+        return;
+      }
+      
+      if(this.wordsGuessed.length === 6) {
+        this.gameOver(false);
+      } else {
+        this.nextGuess();
+      }
     })
-
-    if(colorResults.every(value => value == 2)) {
-      this.gameOver(true);
-      return;
-    }
-    
-    if(this.wordsGuessed.length === 6) {
-      this.gameOver(false);
-    } else 
-      this.nextGuess();
-    }
+  }
 
   // done
   getLetterColors (word, target) {
@@ -234,12 +235,11 @@ class Game {
       if(word[wordLetterInd] === targetArray[wordLetterInd]) {
         colors[wordLetterInd] = 2;
         targetArray[wordLetterInd] = '*';
-        continue;
       }
     }
   
     for(let wordLetterInd in word) {
-        if(targetArray.indexOf(word[wordLetterInd]) !== -1) {
+        if(targetArray.indexOf(word[wordLetterInd]) !== -1 && colors[wordLetterInd] == 0) {
         colors[wordLetterInd] = 1;
         targetArray[targetArray.indexOf(word[wordLetterInd])] = '*';
         continue;
@@ -257,18 +257,85 @@ class Game {
 
   gameOver(hasWon) {
     window.onkeydown = null;
-    // todo show popup
-    console.log("game over");
-    if(hasWon) {
-      console.log("wooo won!");
-    } else {
-      console.log(" :( not won");
-    }
-    this.renderGameOverPage();
+    this.renderGameOverPage(hasWon);
   }
 
-  renderGameOverPage() {
+  renderGameOverPage(hasWon) {
+    const gameoverPopup = document.querySelector('.gameover');
+    let gameoverResult = document.createElement('h2');
+    gameoverResult.classList.add('gameover__title');
+    let gameoverInfo = document.createElement('p');
+    gameoverInfo.classList.add('gameover__info');
+    let gameoverButton = document.createElement('button');
+    gameoverButton.classList.add('gameover__restart-btn');
+    gameoverButton.innerHTML = 'restart';
+    gameoverButton.addEventListener('click', this.restart);
+    if(hasWon) {
+      gameoverResult.innerHTML = 'you won!';
+      gameoverInfo.innerHTML = `You correctly guesse the word : <br><span class="gameover__word">${this.targetWord}</span><br> in <span class="gamerover__number-of-guesses">${this.wordsGuessed.length}</span> tries`;
+    } else {
+      gameoverResult.innerHTML = 'you lost!';
+      gameoverInfo.innerHTML = `the word was : <br><span class="gameover__word">${this.targetWord}</span><br> better luck next time!`;
+    }
+    gameoverPopup.innerHTML = '';
+    gameoverPopup.append(gameoverResult, gameoverInfo, gameoverButton);
+    gameoverPopup.classList.add('gameover--visible');
+  }
+
+  restart() {
+    const gameoverPopup = document.querySelector('.gameover');
+    gameoverPopup.classList.remove('gameover--visible');
     
+    document.querySelector('.game').innerHTML = `
+    <div class="guess" data-letters="">
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+    </div>
+    <div class="guess" data-letters="">
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+    </div>
+    <div class="guess" data-letters="">
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+    </div>
+    <div class="guess" data-letters="">
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+    </div>
+    <div class="guess" data-letters="">
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+    </div>
+    <div class="guess" data-letters="">
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+      <div class="guess__tile" data-letter=""></div>
+    </div>`;
+
+    this.guesses = [...document.querySelectorAll('.guess')];
+    this.currentGuessNum = 0;
+    this.currentGuess = new Guess(this.guesses[this.currentGuessNum]);
+    
+    this.wordsGuessed = [];
+    this.startGame();
   }
 }
 
