@@ -28,6 +28,7 @@ body {
   --clr-absent: var(--color-tone-6);
 
   --clr-text: var(--clr-dark-text);
+  --clr-tile-text--full: var(--color-tone-1);
 
   --clr-bg: var(--color-tone-1);
 
@@ -46,6 +47,7 @@ body.dark {
   --clr-absent: var(--color-tone-8);
 
   --clr-text: var(--clr-light-text);
+  --clr-tile-text--full: var(--color-tone-2);
 
   --clr-bg: var(--color-tone-9);
 

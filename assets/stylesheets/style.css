@@ -18,6 +18,8 @@ body {
   text-transform: uppercase;
 
   color: var(--clr-text);
+
+  user-select: none;
 }
 
 .title {

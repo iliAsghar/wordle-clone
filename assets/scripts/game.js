@@ -77,6 +77,8 @@ class Guess {
     if(this.currentLetterNum !== 4) {
       this.currentLetter = new Letter(this.letters[++this.currentLetterNum]);
     } else {
+      this.currentLetterNum++;
+      this.currentLetter = null;
       this.canAddLetter = false;
     }
   }
@@ -125,17 +127,17 @@ class Game {
   async startGame () {
     await this.loadWordDictionary();
     this.generateTargetWord();
-    window.addEventListener('keydown', (e) => this.handleInput(e.key));
+    window.onkeydown = (e) => this.handleInput(e.key);
   }
 
   // done
   pauseGame() {
-    window.removeEventListener('keydown', (e) => this.handleInput(e.key));
+    window.onkeydown = null;
   }
 
   // done
   unpauseGame() {
-    window.addEventListener('keydown', (e) => this.handleInput(e.key));
+    window.onkeydown = (e) => this.handleInput(e.key);
   }
 
   // done
@@ -195,6 +197,8 @@ class Game {
 
   showError(errorMsg) {
     // todo - add a popup to the page. set a popup timer to fase away.
+    console.log(errorMsg);
+    
   }
 
   // done
@@ -207,29 +211,36 @@ class Game {
     this.wordsGuessed.push(guess);
     let colorResults = this.getLetterColors(guess, this.targetWord);
     this.currentGuess.showResult(colorResults)
-                        .then(response => {
-                          this.unpauseGame();
-                        })
+    .then(response => {
+      this.unpauseGame();
+    })
+
+    if(colorResults.every(value => value == 2)) {
+      this.gameOver(true);
+      return;
+    }
     
     if(this.wordsGuessed.length === 6) {
-      this.gameOver();
-    } else {
+      this.gameOver(false);
+    } else 
       this.nextGuess();
-      this.unpauseGame();
     }
-  }
 
   // done
   getLetterColors (word, target) {
     let colors = [0, 0, 0, 0, 0];
     let targetArray = target.split('');
-  
+
     for(let wordLetterInd in word) {
       if(word[wordLetterInd] === targetArray[wordLetterInd]) {
         colors[wordLetterInd] = 2;
         targetArray[wordLetterInd] = '*';
         continue;
-      } else if(targetArray.indexOf(word[wordLetterInd]) !== -1) {
+      }
+    }
+  
+    for(let wordLetterInd in word) {
+        if(targetArray.indexOf(word[wordLetterInd]) !== -1) {
         colors[wordLetterInd] = 1;
         targetArray[targetArray.indexOf(word[wordLetterInd])] = '*';
         continue;
@@ -245,8 +256,16 @@ class Game {
     this.dictionary = (Object.keys(wordsData)).filter(word => word.length === 5);
   }
 
-  gameOver() {
-    // todo
+  gameOver(hasWon) {
+    window.onkeydown = null;
+    // todo show popup
+    console.log("game over");
+    if(hasWon) {
+      console.log("wooo won!");
+    } else {
+      console.log(" :( not won");
+    }
+    
   }
 }
 

@@ -15,6 +15,7 @@
 
 .guess__tile--full {
   border-color: var(--clr-tile-border--full);
+  animation: pulse 60ms ease-in-out;
 }
 
 .guess__tile--correct {
@@ -30,34 +31,37 @@
 }
 
 .guess__tile--submitted {
+  transition-property: border-color, background-color, color;
+  transition-delay: 250ms;
+  color: var(--clr-tile-text--full) !important;
+  background-color: var(--tile-color);
+  border-color: var(--tile-color);
   transform-origin: center;
-  animation: tileFlip .75s ease-in-out forwards;
+  animation: tileFlip 500ms ease-in-out forwards;
 }
 
-/* todo has work todo */
+
+
 @keyframes tileFlip {
   0% {
-    background-color: transparent;
-    transform: scale(1, 1);
-  }
-  
-  49.9% {
-    background-color: transparent;
-    transform: scale(1, 0.01);
+    transform: scaleY(1);
   }
 
   50% {
-    background-color: transparent;
-    transform: scale(1, 0);
-  }
-
-  50.1% {
-    background-color: var(--tile-color);
-    transform: scale(1, 0);
+    transform: scaleY(0);
   }
 
   100% {
-    background-color: var(--tile-color);
-    transform: scale(1, 1);
+    transform: scaleY(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.1);
   }
 }
