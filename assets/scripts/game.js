@@ -196,9 +196,14 @@ class Game {
   }
 
   showError(errorMsg) {
-    // todo - add a popup to the page. set a popup timer to fase away.
-    console.log(errorMsg);
-    
+    let popupContainer = document.querySelector('.pop-ups');
+    let errorElem = document.createElement('p');
+    errorElem.classList.add('pop-up');
+    errorElem.innerHTML = errorMsg;
+    errorElem.addEventListener('animationend', () => {
+      errorElem.remove();
+    });
+    popupContainer.append(errorElem);
   }
 
   // done
