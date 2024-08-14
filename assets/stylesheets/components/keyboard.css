@@ -1,0 +1,61 @@
+.keyboard {
+  width: 100%;
+  max-width: 49rem;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+}
+
+.keyboard-row + .keyboard-row {
+  margin-top: .75rem;
+}
+
+.keyboard__key {
+  flex: 1;
+  height: 58px;
+  aspect-ratio: 1 / 1.5;
+  font-size: 2rem;
+  text-transform: inherit;
+  font-weight: 600;
+  border: none;
+  background-color: var(--clr-keyboard-btn-bg);
+  color: var(--clr-text);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.keyboard__key--enter {
+  font-size: 1.25rem;
+}
+
+.keyboard__key--big {
+  flex: 1.5;
+}
+
+.keyboard__key + .keyboard__key {
+  margin-left: .65rem;
+}
+
+.keyboard__half-space {
+  flex: .5;
+}
+
+.keyboard__key--correct {
+  background-color: var(--clr-correct);
+}
+
+.keyboard__key--present {
+  background-color: var(--clr-present);
+}
+
+.keyboard__key--absent {
+  background-color: var(--clr-absent);
+}
+
+.keyboard__key--correct,
+.keyboard__key--present,
+.keyboard__key--absent {
+  color: var(--clr-keyboard-btn-pushed-text);
+}

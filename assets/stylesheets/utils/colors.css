@@ -48,7 +48,8 @@ body {
   --clr-tile-border--full: var(--color-tone-4);
   --clr-tile-border--empty: var(--color-tone-3);
 
-  --clr-keyboard-btn: var(--color-tone-3);
+  --clr-keyboard-btn-bg: var(--color-tone-3);
+  --clr-keyboard-btn-pushed-text: var(--clr-light-text);
 
   /* might add additional variables for settings, etc. */
 }
@@ -77,7 +78,8 @@ body.dark {
   --clr-tile-border--full: var(--color-tone-7);
   --clr-tile-border--empty: var(--color-tone-8);
 
-  --clr-keyboard-btn: var(--color-tone-5);
+  --clr-keyboard-btn-bg: var(--color-tone-5);
+  --clr-keyboard-btn-pushed-text: var(--clr-light-text);
 
   /* might add additional variables for settings, etc. */
 }

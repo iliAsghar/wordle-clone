@@ -5,6 +5,7 @@
 @import url('./components/guess.css');
 @import url('./components/popups.css');
 @import url('./components/gameover.css');
+@import url('./components/keyboard.css');
 
 body {
   position: relative;
