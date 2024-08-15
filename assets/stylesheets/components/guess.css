@@ -2,10 +2,10 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 5px;
-  width: 30rem;
 }
 
 .guess__tile {
+  width: 52px;
   aspect-ratio: 1;
   border: 2px solid var(--clr-tile-border--empty);
   display: grid;

@@ -26,10 +26,6 @@
   cursor: pointer;
 }
 
-.keyboard__key--enter {
-  font-size: 1.25rem;
-}
-
 .keyboard__key--big {
   flex: 1.5;
 }
