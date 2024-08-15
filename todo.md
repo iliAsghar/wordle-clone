@@ -1,1 +1,0 @@
-- add correct guess animation
