@@ -114,7 +114,7 @@ class Guess {
 }
 
 class Game {
-
+  
   // done
   constructor () {
     this.guesses = [...document.querySelectorAll('.guess')];
@@ -123,6 +123,7 @@ class Game {
     
     this.wordsGuessed = [];
     this.restart = this.restart.bind(this);
+    this.keyboardBtns = [...document.querySelectorAll('.keyboard__key')];
   }
 
   // done
@@ -130,6 +131,15 @@ class Game {
     await this.loadWordDictionary();
     this.generateTargetWord();
     window.onkeydown = (e) => this.handleInput(e.key);
+    this.initiateVirtualKeyboard();
+  }
+
+  initiateVirtualKeyboard() {
+    this.keyboardBtns.forEach( key => {
+      key.addEventListener('click',() => {
+        this.handleInput(key.dataset.key);
+      });
+    })    
   }
 
   // done
