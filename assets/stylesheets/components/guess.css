@@ -32,12 +32,12 @@
 
 .guess__tile--submitted {
   transition-property: border-color, background-color, color;
-  transition-delay: 200ms;
+  transition-delay: 175ms;
   color: var(--clr-tile-text--full) !important;
   background-color: var(--tile-color);
   border-color: var(--tile-color);
   transform-origin: center;
-  animation: tileFlip 400ms ease-in-out forwards;
+  animation: tileFlip 350ms ease-in-out forwards;
 }
 
 
