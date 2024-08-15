@@ -40,7 +40,9 @@
   animation: tileFlip 350ms ease-in-out forwards;
 }
 
-
+.guess__tile--wiggle {
+  animation: wiggle 250ms ease-in-out;
+}
 
 @keyframes tileFlip {
   0% {
@@ -63,5 +65,15 @@
 
   25% {
     transform: scale(1.1);
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: none;
+  }
+
+  50% {
+    transform: translateY(-20px);
   }
 }

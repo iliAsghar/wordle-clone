@@ -17,7 +17,7 @@
 }
 
 .gameover--visible {
-  animation: slideIn .75s 1s ease-in-out forwards;
+  animation: slideIn .5s .5s ease-in-out forwards;
 }
 
 .gameover__title {

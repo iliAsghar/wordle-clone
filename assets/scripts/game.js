@@ -33,6 +33,10 @@ class Letter {
     }
     this.element.classList.add('guess__tile--submitted');
   }
+
+  async wiggle() {
+    this.element.classList.add('guess__tile--wiggle');
+  }
 }
 
 class Guess {
@@ -103,6 +107,24 @@ class Guess {
           this.currentLetterNum = index;
           this.currentLetter = new Letter(this.letters[this.currentLetterNum]);
           this.currentLetter.flip(this.colorCodes[index]);
+          this.currentLetter.element.addEventListener('animationend', () => {
+            animateNextLetter(index + 1);
+          }, { once: true });
+        }
+      };
+      animateNextLetter(0);
+    })
+  }
+
+  correctAnimation() {
+    return new Promise(res => {
+      const animateNextLetter = (index) => {
+        if(index === 5) {
+          res();
+        } else {
+          this.currentLetterNum = index;
+          this.currentLetter = new Letter(this.letters[this.currentLetterNum]);
+          this.currentLetter.wiggle();
           this.currentLetter.element.addEventListener('animationend', () => {
             animateNextLetter(index + 1);
           }, { once: true });
@@ -291,8 +313,11 @@ class Game {
     this.dictionary = (Object.keys(wordsData)).filter(word => word.length === 5);
   }
 
-  gameOver(hasWon) {
+  async gameOver(hasWon) {
     window.onkeydown = null;
+    if(hasWon) {
+      await this.currentGuess.correctAnimation();
+    }
     this.renderGameOverPage(hasWon);
   }
 
