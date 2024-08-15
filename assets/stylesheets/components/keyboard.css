@@ -38,20 +38,18 @@
   flex: .5;
 }
 
-.keyboard__key--correct {
+.keyboard__key[data-state="correct"] {
   background-color: var(--clr-correct);
 }
 
-.keyboard__key--present {
+.keyboard__key[data-state="present"] {
   background-color: var(--clr-present);
 }
 
-.keyboard__key--absent {
+.keyboard__key[data-state="absent"] {
   background-color: var(--clr-absent);
 }
 
-.keyboard__key--correct,
-.keyboard__key--present,
-.keyboard__key--absent {
+.keyboard__key--used {
   color: var(--clr-keyboard-btn-pushed-text);
 }

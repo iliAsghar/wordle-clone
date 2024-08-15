@@ -123,14 +123,14 @@ class Game {
     
     this.wordsGuessed = [];
     this.restart = this.restart.bind(this);
-    this.keyboardBtns = [...document.querySelectorAll('.keyboard__key')];
   }
-
+  
   // done
   async startGame () {
     await this.loadWordDictionary();
     this.generateTargetWord();
     window.onkeydown = (e) => this.handleInput(e.key);
+    this.keyboardBtns = [...document.querySelectorAll('.keyboard__key')];
     this.initiateVirtualKeyboard();
   }
 
@@ -227,6 +227,7 @@ class Game {
     let colorResults = this.getLetterColors(guess, this.targetWord);
     this.currentGuess.showResult(colorResults)
     .then(response => {
+      this.updateKeyboard(guess, colorResults);
       this.unpauseGame();
       if(colorResults.every(value => value == 2)) {
         this.gameOver(true);
@@ -261,6 +262,26 @@ class Game {
       }
     }
     return colors;
+  }
+
+  updateKeyboard(guess, colorResults) {
+    for( let letterInd in guess ) {
+      let key = document.querySelector(`.keyboard__key[data-key="${guess[letterInd]}"]`);
+      key.classList.add('keyboard__key--used');
+      switch (colorResults[letterInd]) {
+        case 2:
+          key.dataset.state = 'correct';
+          break;
+        case 1:
+          if(key.dataset.state !== 'correct') {
+            key.dataset.state = 'present';
+          }
+          break;
+        case 0:
+          key.dataset.state = 'absent';
+          break;
+      }
+    }
   }
 
   // done
@@ -302,54 +323,99 @@ class Game {
     gameoverPopup.classList.remove('gameover--visible');
     
     document.querySelector('.game').innerHTML = `
-    <div class="guess" data-letters="">
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-    </div>
-    <div class="guess" data-letters="">
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-    </div>
-    <div class="guess" data-letters="">
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-    </div>
-    <div class="guess" data-letters="">
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-    </div>
-    <div class="guess" data-letters="">
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-    </div>
-    <div class="guess" data-letters="">
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-      <div class="guess__tile" data-letter=""></div>
-    </div>`;
+      <div class="guess" data-letters="">
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+      </div>
+      <div class="guess" data-letters="">
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+      </div>
+      <div class="guess" data-letters="">
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+      </div>
+      <div class="guess" data-letters="">
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+      </div>
+      <div class="guess" data-letters="">
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+      </div>
+      <div class="guess" data-letters="">
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+        <div class="guess__tile" data-letter=""></div>
+      </div>
+    `;
+
+    document.querySelector('.keyboard').innerHTML = `
+      <div class="keyboard-row">
+        <button class="keyboard__key" data-key="q">q</button>
+        <button class="keyboard__key" data-key="w">w</button>
+        <button class="keyboard__key" data-key="e">e</button>
+        <button class="keyboard__key" data-key="r">r</button>
+        <button class="keyboard__key" data-key="t">t</button>
+        <button class="keyboard__key" data-key="y">y</button>
+        <button class="keyboard__key" data-key="u">u</button>
+        <button class="keyboard__key" data-key="i">i</button>
+        <button class="keyboard__key" data-key="o">o</button>
+        <button class="keyboard__key" data-key="p">p</button>
+      </div>
+      <div class="keyboard-row">
+        <div class="keyboard__half-space"></div>
+        <button class="keyboard__key keyboard__key--correct" data-key="a">a</button>
+        <button class="keyboard__key keyboard__key--present" data-key="s">s</button>
+        <button class="keyboard__key" data-key="d">d</button>
+        <button class="keyboard__key" data-key="f">f</button>
+        <button class="keyboard__key" data-key="g">g</button>
+        <button class="keyboard__key" data-key="h">h</button>
+        <button class="keyboard__key" data-key="j">j</button>
+        <button class="keyboard__key" data-key="k">k</button>
+        <button class="keyboard__key" data-key="l">l</button>
+        <div class="keyboard__half-space"></div>
+      </div>
+      <div class="keyboard-row">
+        <button class="keyboard__key keyboard__key--big" data-key="Enter">
+          <i class="fa-solid fa-right-to-bracket"></i>
+        </button>
+        <button class="keyboard__key" data-key="z">z</button>
+        <button class="keyboard__key" data-key="x">x</button>
+        <button class="keyboard__key" data-key="c">c</button>
+        <button class="keyboard__key" data-key="v">v</button>
+        <button class="keyboard__key" data-key="b">b</button>
+        <button class="keyboard__key" data-key="n">n</button>
+        <button class="keyboard__key" data-key="m">m</button>
+        <button class="keyboard__key keyboard__key--big" data-key="Backspace">
+          <i class="fa-solid fa-delete-left"></i>
+        </button>
+      </div>
+    `;
 
     this.guesses = [...document.querySelectorAll('.guess')];
     this.currentGuessNum = 0;
     this.currentGuess = new Guess(this.guesses[this.currentGuessNum]);
     
     this.wordsGuessed = [];
+    this.initiateVirtualKeyboard();
     this.startGame();
   }
 }
