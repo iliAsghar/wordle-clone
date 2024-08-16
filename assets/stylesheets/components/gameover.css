@@ -1,4 +1,5 @@
 .gameover {
+  margin: 1rem;
   visibility: hidden;
   position: absolute;
   top: 50%;

@@ -28,6 +28,7 @@
 
 .keyboard__key--big {
   flex: 1.5;
+  font-size: 1.75rem;
 }
 
 .keyboard__key + .keyboard__key {

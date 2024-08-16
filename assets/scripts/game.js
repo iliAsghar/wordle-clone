@@ -341,5 +341,9 @@ class Wordle {
   }
 }
 
+document.querySelector('#theme-toggler').addEventListener('change', () => {
+  document.body.classList.toggle('dark');
+});
+
 let game = new Wordle();
 game.startGame();

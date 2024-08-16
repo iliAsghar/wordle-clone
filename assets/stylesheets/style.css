@@ -30,6 +30,7 @@ body {
 .title {
   font-size: 4.25rem;
   letter-spacing: 0.3rem;
+  margin-right: 5rem;
 }
 
 .game {
@@ -39,12 +40,40 @@ body {
   padding: 10px;
 }
 
-.line {
+#theme-toggler {
+  display: none;
+}
+
+.theme-radio {
   position: absolute;
-  height: 100dvh;
-  background-color: black;
-  width: 3px;
+  right: 1.5rem;
+  top: 2rem;
+  height: 3rem;
+  width: 6rem;
+  border-radius: 3rem;
+  border: 2px solid var(--clr-text);
+  cursor: pointer;
+}
+
+.theme-radio::after {
+  content: '';
+  position: absolute;
+  height: 90%;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  background-color: var(--clr-text);
+  left: 5%;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
+  transition: all 250ms ease-in-out;
+}
+
+.theme-radio:has( > #theme-toggler:checked)::after {
+  left: 55%;
+}
+
+@media (min-width: 550px) {
+  .title {
+    margin: 0;
+  }
 }
